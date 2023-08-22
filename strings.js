@@ -3,6 +3,9 @@ function upperFirst(str) {
 }
    
 function upperWords(str) {
+    if (str.length === 0) {
+        return '';
+    }
     return str.split(' ').map(upperFirst).join(' ');
 }
 
@@ -15,15 +18,36 @@ function capitalizeWords(str) {
 }
 
 function removeExtraSpaces(str) {
-    return str.trim().replace(/\s+/g, ' ');
+    str = str.trim();
+    if (str.length === 0) {
+        return '';
+    }
+    if (str.length < 2) {
+        return str;
+    }
+
+    if (str[0] == ' ') {
+        str = str.slice(1);
+    }
+    if (str[str.length - 1] == ' ') {
+        str = str.slice(0, -1);
+    }
+
+    let result = '';
+    for (let i = 0; i < str.length; i++) {
+        if (str[i - 1] !== ' ' || str[i] !== ' ') {
+            result += str[i];
+        }
+    }
+    return result;
 }
 
 function kebobCase(str) {
-    return str.replace(/\s+/g, '-').toLowerCase();
+    return removeExtraSpaces(str).replace(/\s+/g, '-').toLowerCase();
 }
 
 function snakeCase(str) {
-    return str.replace(/\s+/g, '_').toLowerCase();
+    return removeExtraSpaces(str).replace(/\s+/g, '-').toLowerCase();
 }
 
 function camelCase(str) {
@@ -41,9 +65,24 @@ function shift(str, num) {
 }
 
 function makeHashTag(str) {
-    return str.split(' ').map(upperFirst).join('').slice(0, 140);
+    const words = str.split(' ').sort((a, b) => b.length - a.length).splice(0, 3);
+    return words.map(word => `#${upperFirst(word)}`);
 }
 
-function isEmpty(str) {
+function isStringEmpty(str) {
     return str.trim().length === 0;
 }
+
+module.exports = {
+    upperFirst,
+    upperWords,
+    allCaps,
+    capitalizeWords,
+    removeExtraSpaces,
+    kebobCase,
+    snakeCase,
+    camelCase,
+    shift,
+    makeHashTag,
+    isStringEmpty
+};
