@@ -1,6 +1,6 @@
 {
   "name": "string-lib-alexharlan",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "strings.js",
   "scripts": {
     "test": "jest"
